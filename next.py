@@ -5,7 +5,7 @@ import sys
 import copy
 from queue import Queue
 import sympy as sy
-from sympy.abc import x # a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, y, z
+from sympy.abc import x, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, y, z
 
 sy.init_printing()
 perems = sy.symbols('x a b c')
@@ -100,8 +100,9 @@ def fill_table(polynoms, div_pairs, _polynoms_, _sign_):
                     rez[2][vyr] = rez[0][position]
 
                 else:
-                    minus_inf_sign = -rez[0][position]
+                    minus_inf_sign = rez[0][position]*(((sy.degree(polyn,x) + 1)%2)*2 - 1)
                     plus_inf_sign = rez[0][position]
+
                     for t_num in range(len(rez)):
                         if intervals[t_num][0] == 0:
                             polyn = div_pairs[(polynoms[vyr], intervals[t_num][1])]
@@ -139,11 +140,11 @@ def fill_table(polynoms, div_pairs, _polynoms_, _sign_):
                         intervals[cycle + 1] = (0, polynoms[vyr])
                         rez[cycle][vyr] = rez[cycle -1][vyr]
                         rez[cycle + 1][vyr] = 0
-                        rez[cycle + 2][vyr] = minus_inf_sign
+                        rez[cycle + 2][vyr] = plus_inf_sign
                     else:
-                        rez[cycle][vyr] = minus_inf_sign  
+                        rez[cycle][vyr] = plus_inf_sign  
 
-        for vyr in range(len(rez)):
+        for vyr in range(len(rez)):          
             vyvod = True
             for jj in _polynoms_:
                 if rez[vyr][pos_numb[jj]] not in _sign_[_polynoms_.index(jj)]:
@@ -196,7 +197,6 @@ def closure_div(polys, queu, is_there, div_pairs):
             if _i != _j and (sy.degree(polys[_i], x) >= sy.degree(polys[_j], x) and sy.degree(polys[_j], x) > 0) and (polys[_i],polys[_j]) not in div_pairs :
                 tmpp = polys[_i]*sy.LC(polys[_j],x)**(sy.degree(polys[_i], x)-sy.degree(polys[_j], x) + 1)           
                 _first , _second = sy.div(tmpp, polys[_j], gens = perems)
-                print(string_form(polys[_i]),string_form(polys[_j]), string_form(_second),sep = " || ")
                 add_div(polys[_i], polys[_j], _second, polys, queu, is_there, div_pairs) 
 
 def closure(polys, div_pairs):
@@ -323,6 +323,3 @@ try:
             print(fill_table(poly_close[ii], div_pairs, polynoms[ii], sign[ii]),"\n")
 except ValueError:
     print("valueError, формула мб введена неправильно: ", _except_str_ )
-else:
-    print("I dont know what the hell")
-    
