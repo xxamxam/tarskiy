@@ -323,5 +323,6 @@ try:
             print(fill_table(poly_close[ii], div_pairs, polynoms[ii], sign[ii]),"\n")
 except ValueError:
     print("valueError, формула мб введена неправильно: ", _except_str_ )
-
+else:
+    print("I dont know what the hell")
     
