@@ -179,8 +179,6 @@ def add(polyn, polys, queu, is_there):
         is_there[polyn] = 1
         polys.append(polyn)
         queu.put(polyn)
-        return True
-    return False
 
 def add_div(pol1, pol2, polyn, polys, queu, is_there, div_pairs):
     polyn = sy.poly_from_expr(polyn.as_expr(), *perems)[0]
@@ -205,21 +203,22 @@ def closure(polys, div_pairs):
     for ii in range(len(polys)):
         queu.put(polys[ii])
         is_there[polys[ii]] = 1
+    _ssize = len(polys)
     while(not(queu.empty())):
-        next = queu.get()
-        polyn = sy.LC(next,x)
-        
-        is_new1 = add(polyn, polys, queu, is_there)
+        while(not(queu.empty())):
+            next = queu.get()
+            polyn = sy.LC(next,x)
+            add(polyn, polys, queu, is_there)
 
-        polyn = (next - sy.LC(next,x)*sy.LM(next,x))
-        is_new2 = add(polyn, polys, queu, is_there)
+            polyn = (next - sy.LC(next,x)*sy.LM(next,x))
+            add(polyn, polys, queu, is_there)
 
-        polyn = (next.diff(x))
-        is_new3 = add(polyn, polys, queu, is_there)
+            polyn = (next.diff(x))
+            add(polyn, polys, queu, is_there)
         
-        if(is_new1 or is_new2 or is_new3):
+        if(_ssize != len(polys)):
             closure_div(polys, queu, is_there, div_pairs)
-    
+            _ssize = len(polys)
     return polys
 
 
