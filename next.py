@@ -366,6 +366,7 @@ try:
             for kk in range(2):
                 for jj in range(len(poly_close[ii][kk])):
                     print("    ",string_form(poly_close[ii][kk][jj]))
+            print("количество в замыкании: ", len(poly_close[ii][0]) + len(poly_close[ii][1]))
             print('\n')
                 
         print("Итоговые конъюнкты:")
