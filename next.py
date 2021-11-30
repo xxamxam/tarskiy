@@ -200,6 +200,7 @@ def fill_table(polynoms, div_pairs, is_there, _polynoms_, _sign_):
 
 def add(polyn, polys, polys_0, queu, is_there):
     polyn = sy.poly_from_expr(polyn.as_expr(), *perems)[0]
+   
     if(polyn not in is_there): # and (-polyn) not in is_there ):
         if sorter_1(polyn) > 0:
             is_there[polyn] = 1
@@ -213,7 +214,6 @@ def add(polyn, polys, polys_0, queu, is_there):
 def add_div(pol1, pol2, polyn,polys, polys_0, queu, is_there, div_pairs):
     polyn = sy.poly_from_expr(polyn.as_expr(), *perems)[0]
     div_pairs[(pol1,pol2)] = polyn
-    
     # div_pairs[(pol1,pol1)] = polyn
     if(polyn not in is_there): # and (-polyn) not in is_there ):   
         if sorter_1(polyn) > 0:
@@ -366,11 +366,13 @@ try:
             for kk in range(2):
                 for jj in range(len(poly_close[ii][kk])):
                     print("    ",string_form(poly_close[ii][kk][jj]))
-            print("количество в замыкании: ", len(poly_close[ii][0]) + len(poly_close[ii][1]))
+            print("количество в замыкании: ", len(poly_close[ii][0]) + len(poly_close[ii][1])) 
             print('\n')
-                
+             
         print("Итоговые конъюнкты:")
         for ii in range(len(poly_close)):
-            print(fill_table(poly_close[ii], div_pairs, is_there, polynoms[ii], sign[ii]),"\n")
+            print(fill_table(poly_close[ii], div_pairs, is_there, polynoms[ii], sign[ii]), end="")
+            if ii != len(poly_close) -1:
+                print(" | ", end='')
 except ValueError:
     print("valueError, формула мб введена неправильно: ", _except_str_ )
