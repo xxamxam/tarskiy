@@ -374,5 +374,6 @@ try:
             print(fill_table(poly_close[ii], div_pairs, is_there, polynoms[ii], sign[ii]), end="")
             if ii != len(poly_close) -1:
                 print(" | ", end='')
+        print()
 except ValueError:
     print("valueError, формула мб введена неправильно: ", _except_str_ )
